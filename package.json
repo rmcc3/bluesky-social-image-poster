@@ -1,0 +1,24 @@
+{
+    "name": "bluesky-social-image-poster",
+    "version": "1.0.0",
+    "description": "A module for posting images to Bluesky Social.",
+    "main": "main.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "keywords": [
+        "bluesky",
+        "social-media",
+        "image-posting",
+        "nodejs"
+    ],
+    "author": "Ray McCann",
+    "license": "Custom",
+    "dependencies": {
+        "@atproto/api": "^0.6.23",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
+}
