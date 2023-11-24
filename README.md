@@ -18,8 +18,8 @@ This module provides a streamlined solution for posting images to Bluesky Social
 Ensure that Node.js is installed on your system, then clone this repository and install the dependencies:
 
 ```bash
-git clone [repository-url]
-cd [repository-directory]
+git https://github.com/rmcc3/bluesky-social-image-poster.git
+cd bluesky-social-image-poster
 npm install
 ```
 
