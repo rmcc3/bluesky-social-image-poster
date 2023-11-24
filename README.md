@@ -1,7 +1,7 @@
-# BlueSky Social Image Posting Module
+# Bluesky Social Image Posting Module
 
 ## Overview
-This Node.js module provides a streamlined solution for posting images to BlueSky Social. It abstracts the complexities involved in interacting with the BlueSky Social API, offering a simple interface for image uploads and post creation.
+This module provides a streamlined solution for posting images to Bluesky Social. It abstracts the complexities involved in interacting with the Bluesky Social API, offering a simple interface for image uploads and post creation.
 
 ## Features
 - **Multiple Image Support**: Allows posting multiple images in a single post.
@@ -12,7 +12,7 @@ This Node.js module provides a streamlined solution for posting images to BlueSk
 
 ## Limitations
 - **File Type Support**: Currently, the Bluesky Social API supports only JPG, JPEG, and PNG file formats. This limitation is reflected in the module's validation process.
-- **API Dependencies**: The module's functionality is dependent on the stability and availability of the BlueSky Social API.
+- **API Dependencies**: The module's functionality is dependent on the stability and availability of the Bluesky Social API.
 
 ## Installation
 Ensure that Node.js is installed on your system, then clone this repository and install the dependencies:
