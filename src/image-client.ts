@@ -1,3 +1,4 @@
+import { ComAtprotoRepoUploadBlob } from '@atproto/api';
 import { BskyApi } from './client';
 import { BSKY_EMBED_IMAGES } from './constants';
 import { BskyImageApiOptions, ImagePost, ImagePostResponse } from './types';
@@ -10,21 +11,29 @@ export class BskyImageApi {
     this.client = client;
   }
 
-  private async uploadImage(imagePath: string) {
-    if (!this.client.agent || typeof this.client.agent.uploadBlob !== 'function') {
-      throw new Error('Invalid BskyAgent instance.');
-    }
-
+  public async uploadImage(imagePath: string): Promise<ComAtprotoRepoUploadBlob.Response> {
     const { imageBytes, contentType } = await checkAndReadFile(imagePath);
-    return this.client.agent.uploadBlob(imageBytes, { encoding: contentType });
+    return this.client.agent.uploadBlob(imageBytes, { encoding: contentType }).catch((error) => {
+      throw new Error(`Failed to upload image: ${error.message}`);
+    });
   }
 
-  public async post(imagePaths: string[], text = ''): Promise<ImagePostResponse> {
+  public async uploadImages(imagePaths: string[]): Promise<ComAtprotoRepoUploadBlob.Response[]> {
     validateImagePaths(imagePaths);
 
     const uploads = await Promise.all(imagePaths.map((image) => this.uploadImage(image))).catch((error) => {
       throw new Error(`Failed to upload image: ${error.message}`);
     });
+
+    return uploads;
+  }
+
+  public async post(imagePaths: string[], text = ''): Promise<ImagePostResponse> {
+    if (!this.client.agent || typeof this.client.agent.uploadBlob !== 'function') {
+      throw new Error('Invalid BskyAgent instance.');
+    }
+
+    const uploads = await this.uploadImages(imagePaths);
 
     const post: ImagePost = {
       text,
