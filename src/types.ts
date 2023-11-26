@@ -1,4 +1,9 @@
 import { BlobRef } from '@atproto/api';
+import { BskyApi } from './client';
+
+export type BskyApiOptions = { service: string; identifier: string; password: string };
+
+export type BskyImageApiOptions = { client: BskyApi };
 
 export type ImagePost = {
   text: string;

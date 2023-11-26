@@ -1,2 +1,3 @@
 export * from './postWithImages';
-export { default as default } from './postWithImages';
+export * from './client';
+export { default as default } from './client';

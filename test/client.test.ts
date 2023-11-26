@@ -1,7 +1,9 @@
-import { BskyAgent } from '@atproto/api';
 import { describe, expect } from '@jest/globals';
-import { sendPostWithImages } from '../src/postWithImages';
 import { MockBskyAgent } from './mocks';
+
+jest.mock('@atproto/api', () => ({
+  BskyAgent: MockBskyAgent,
+}));
 
 jest.mock('fs/promises', () => ({
   access: jest.fn().mockResolvedValue(true),
@@ -9,11 +11,13 @@ jest.mock('fs/promises', () => ({
   readFile: jest.fn().mockResolvedValue(Buffer.from('mockImageData')),
 }));
 
+import { BskyApi } from '../src/client';
+
 describe('sendPostWithImages', () => {
-  let agent: BskyAgent;
+  let client: BskyApi;
 
   beforeEach(() => {
-    agent = new MockBskyAgent() as unknown as BskyAgent;
+    client = new BskyApi({ service: 'mockService', identifier: 'mockIdentifier', password: 'mockPassword' });
 
     jest.clearAllMocks();
   });
@@ -23,7 +27,7 @@ describe('sendPostWithImages', () => {
     const text = 'Test Post';
 
     // Call the function
-    const result = await sendPostWithImages(agent, imagePaths, text);
+    const result = await client.images.post(imagePaths, text);
 
     // Assertions
     expect(result).toHaveProperty('text', text);
