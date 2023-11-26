@@ -45,7 +45,9 @@ export class BskyImageApi {
       },
     };
 
-    const response = await this.client.agent.post(post);
+    const response = await this.client.agent.post(post).catch((error) => {
+      throw new Error(`Failed to create post: ${error.message}`);
+    });
 
     return {
       ...post,
