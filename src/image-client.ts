@@ -33,6 +33,8 @@ export class BskyImageApi {
       throw new Error('Invalid BskyAgent instance.');
     }
 
+    await this.client.authenticate();
+
     const uploads = await this.uploadImages(imagePaths);
 
     const post: ImagePost = {
