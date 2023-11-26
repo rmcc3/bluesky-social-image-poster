@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import * as fs from 'fs/promises';
 import path from 'path';
 import { BskyAgent } from '@atproto/api';
 import { ImagePost, ImagePostResponse } from './types';

@@ -1,6 +1,12 @@
 import { BskyAgent } from '@atproto/api';
+import { describe, expect } from '@jest/globals';
 import { sendPostWithImages } from '../src/postWithImages';
-import fs from 'fs/promises';
+
+jest.mock('fs/promises', () => ({
+  access: jest.fn().mockResolvedValue(true),
+  writeFile: jest.fn().mockResolvedValue(Buffer.from('mockImageData')),
+  readFile: jest.fn().mockResolvedValue(Buffer.from('mockImageData')),
+}));
 
 class MockBskyAgent {
   async login() {}
@@ -9,17 +15,21 @@ class MockBskyAgent {
     return { data: { blob: 'mockBlobUri' } };
   }
 
-  async post(data) {
+  async post(data: any) {
     return data;
   }
 }
 
 describe('sendPostWithImages', () => {
+  let agent: BskyAgent;
+
+  beforeEach(() => {
+    agent = new MockBskyAgent() as unknown as BskyAgent;
+
+    jest.clearAllMocks();
+  });
+
   it('should create a post with images', async () => {
-    jest.spyOn(fs, 'readFile').mockResolvedValue(Buffer.from('mockImageData'));
-
-    const agent = new MockBskyAgent() as unknown as BskyAgent;
-
     const imagePaths = ['image1.jpg', 'image2.png'];
     const text = 'Test Post';
 
@@ -30,8 +40,5 @@ describe('sendPostWithImages', () => {
     expect(result).toHaveProperty('text', text);
     expect(result.embed.images).toHaveLength(imagePaths.length);
     expect(result.embed.images[0]).toHaveProperty('image', 'mockBlobUri');
-
-    // Restore original functionality
-    jest.restoreAllMocks();
   });
 });
